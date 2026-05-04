@@ -1,0 +1,4 @@
+__pycache__/
+chess_env/
+stockfish/
+*.pyc
