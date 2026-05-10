@@ -12,7 +12,6 @@ from stockfish_vs_randommover import (
     default_stats,
     result_label,
     turn_label,
-    skill_label,
 )
 
 # PAGE SETTINGS 
