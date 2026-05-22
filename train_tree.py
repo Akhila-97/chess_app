@@ -78,7 +78,6 @@ def check_bucket(label, X_data, y_data, tree, leaf_moves_sorted):
         actual_move  = y_data[i]
         bucket       = int(tree.apply([X_data[i]])[0])
         bucket_moves = leaf_moves_sorted.get(bucket, [])
-
         if actual_move in bucket_moves:
             found += 1
         else:
@@ -154,8 +153,8 @@ if not rows:
     print("ERROR: no moves found")
     exit()
 # build X and y 
-X = [r[0] for r in rows]
-y = [r[1] for r in rows]
+X = [r[0] for r in rows] # x_train ---- features
+y = [r[1] for r in rows] # y_train --- label of crresponding moves
 
 print(f"  Unique moves Adams played         : {len(set(y))}")
 
@@ -173,15 +172,16 @@ print(f" Done, tree has {tree.get_n_leaves()} leaf buckets")
 
 # build leaf_moves dictionary 
 leaf_moves_sorted = {}
-
+#x_train-> get_features
+#y_train-> corre.move
 for i in range(len(X_train)):
     bucket = int(tree.apply([X_train[i]])[0])
     move   = y_train[i]
 
     if bucket not in leaf_moves_sorted:
-        leaf_moves_sorted[bucket] = []
-    leaf_moves_sorted[bucket].append(move)
-
+        leaf_moves_sorted[bucket] = [] # create empty list 
+    leaf_moves_sorted[bucket].append(move) # add move to bucket
+# sort each bucket most repeated first
 for bucket in leaf_moves_sorted:
     moves = leaf_moves_sorted[bucket]
     leaf_moves_sorted[bucket] = sorted(
@@ -211,7 +211,7 @@ test_found, test_not, test_total = check_bucket(
 # rank check
 check_rank("TRAIN", X_train, y_train, tree, leaf_moves_sorted)
 check_rank("TEST",  X_test,  y_test,  tree, leaf_moves_sorted)
-
+ 
 #draw the tree
 
 plt.figure(figsize=(16, 6))
